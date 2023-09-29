@@ -10,7 +10,7 @@ const layerStyle = {
   source: "my-data",
   type: "fill-extrusion",
   paint: {
-    "fill-extrusion-color": "#aaa",
+    "fill-extrusion-color": "#FFC300",
     "fill-extrusion-height": [
       "interpolate",
       ["linear"],
@@ -24,6 +24,27 @@ const layerStyle = {
     "fill-extrusion-opacity": 0.8,
   },
 };
+
+const labelLayer = {
+  id: "building-labels",
+  source: "my-data",
+  type: "symbol",
+  layout: {
+    "text-field": ["get", "direccion"], // Assuming '@id' is the property in your data source you want to display
+    "text-size": 14,
+    "text-font": ["Open Sans Bold", "Arial Unicode MS Bold"],
+    "text-anchor": "center", // Ensuring the text is anchored at the center
+    "text-offset": [0, 0], // No offset is needed for centering
+  },
+  paint: {
+    "text-color": "#000000",
+    "text-halo-color": "#FFFFFF",
+    "text-halo-width": 2,
+    "text-halo-blur": 1,
+  },
+};
+
+
 
 const MapPaper = () => {
   const { state, dispatch } = useContext(AppContext);
@@ -95,13 +116,14 @@ const MapPaper = () => {
           pitch={pitch}
           maxZoom={contants.maxZoom + 2}
           initialViewState={{ ...initialViewport }}
-          mapStyle="mapbox://styles/mapbox/dark-v11"
+          mapStyle="mapbox://styles/mapbox/satellite-v9"
           onZoom={handleViewportChange}
           onMouseMove={handleMapHover}
         >
           {data && (
             <Source id="my-data" type="geojson" data={data}>
               <Layer {...layerStyle} />
+              <Layer {...labelLayer} />
             </Source>
           )}
           {popupInfo && (
