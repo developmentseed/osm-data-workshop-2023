@@ -35,10 +35,11 @@ const Sidebar = () => {
         const features = {
           ...obj,
           features: obj.features.map((i) => {
-            if (!i.properties.levels) {
-              i.properties.levels = getRandomInt();
+            if (!i.properties["building:levels"]) {
+              i.properties["building:levels"] = getRandomInt();
             }
-            i.properties.height = i.properties.levels * PISO_HEIGHT;
+            i.properties["building:levels"] = parseInt(`${i.properties["building:levels"]}`)
+            i.properties.height = i.properties["building:levels"] * PISO_HEIGHT;
 
             Object.keys(i.properties).forEach((jk) => {
               if (!jk.includes("@id")) {
